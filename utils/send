@@ -109,4 +109,4 @@ lower32=$(($packet_count & 0xFFFFFFFF))
 pcireg $CYCLES  $packet_cycles
 pcireg $DELAY   $packet_delay
 pcireg $COUNT_H $upper32
-pcireg $COUNT_L $lower32;
+pcireg $COUNT_L $lower32
