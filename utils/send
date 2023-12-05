@@ -87,13 +87,18 @@ if [ $reg -eq $((0xFFFFFFFF)) ]; then
     exit 1
 fi
 
+# Are we trying to halt an ongoing transmission?
+if [ $packet_count -eq 0 ]; then
+   pcireg $COUNT_H 0
+   pcireg $COUNT_L 0
+   exit 0
+fi
+
 # Is the system already busy sending packets?
-if [ $packet_count -ne 0 ]; then
-   reg=$(read_reg $STATUS)
-   if [ $reg -eq 1 ]; then
-      echo "Tool is busy sending UDP datagrams"
-      exit 1
-   fi
+reg=$(read_reg $STATUS)
+if [ $reg -eq 1 ]; then
+   echo "Tool is busy sending UDP datagrams"
+   exit 1
 fi
 
 # Make sure the Ethernet port has PCS alignment
